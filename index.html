@@ -1,272 +1,197 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christmas Luau Party</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Christmas Luau Party</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(180deg, #00111f, #002b45 40%, #3d1700 100%);
+      color: #fff;
+      overflow-x: hidden;
+    }
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    /* Snow */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: white;
+      font-size: 1em;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
 
-    <style>
-        body {
-            font-family: 'Lato', sans-serif;
-            background-color: #001003 !important; /* Verde navidad muy oscuro */
-        }
-        .font-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 900;
-        }
+    /* Header */
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(6px);
+    }
+    header h1 {
+      font-size: 3rem;
+      color: #ff5757;
+      text-shadow: 0 0 15px #ff0000;
+      animation: glow 3s infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ff0000; }
+      to { text-shadow: 0 0 30px #ff5f5f; }
+    }
 
-        /* --- Colores NAVIDEÑO–HAWAIANOS --- */
-        .navidad-rojo { color: #ff4d4d; }
-        .navidad-verde { color: #16ff8a; }
-        .navidad-dorado { color: #ffe9a3; }
-        .tropical-azul { color: #6dd6ff; }
+    /* Main card */
+    .card {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+    .section-title {
+      font-size: 2rem;
+      color: #ffe073;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #ffdd55;
+    }
+    .text-center {
+      text-align: center;
+    }
 
-        /* Iconos Neón */
-        :root {
-            --neon-red: #ff4d4d;
-            --neon-green: #16ff8a;
-            --neon-gold: #ffe9a3;
-        }
+    /* Fire animation */
+    .fire-container {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    .fire {
+      position: relative;
+      width: 120px;
+      height: 160px;
+    }
+    .flame {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 60px;
+      background: radial-gradient(circle, #ffea00, #ff8c00);
+      border-radius: 50%;
+      animation: flicker 0.2s infinite alternate;
+    }
+    @keyframes flicker {
+      from { transform: translateX(-50%) scale(1); filter: blur(0px); }
+      to { transform: translateX(-50%) scale(1.1); filter: blur(2px); }
+    }
 
-        .neon-icon-red {
-            filter: drop-shadow(0 0 8px var(--neon-red))
-                    drop-shadow(0 0 16px rgba(255, 77, 77, 0.7))
-                    drop-shadow(0 0 30px rgba(255, 77, 77, 0.4));
-            transition: transform 0.3s ease-in-out;
-        }
+    /* Hawaiian leaves */
+    .leaves {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+    .leaf {
+      width: 120px;
+      opacity: 0.8;
+      transform-origin: top center;
+      animation: sway 4s infinite ease-in-out alternate;
+    }
+    @keyframes sway {
+      from { transform: rotate(3deg); }
+      to { transform: rotate(-3deg); }
+    }
 
-        .card-item:hover .neon-icon-red {
-            transform: scale(1.08);
-            filter: drop-shadow(0 0 10px var(--neon-red))
-                    drop-shadow(0 0 25px var(--neon-red));
-        }
+    /* RSVP button */
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background: #ff5757;
+      color: #fff;
+      border-radius: 50px;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      box-shadow: 0 0 10px #ff4a4a;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #ff3030;
+      box-shadow: 0 0 20px #ff0000;
+    }
 
-        #particles-js {
-            position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 0;
-        }
-
-        .content-wrapper {
-            position: relative;
-            z-index: 10;
-        }
-
-        .card-item {
-            background-color: rgba(0, 18, 7, 0.95);
-            border: 1px solid rgba(255,255,255,0.15);
-        }
-
-        /* Countdown */
-        .countdown-box {
-            background: rgba(0,18,7,1);
-            border: 1px solid var(--neon-green);
-            box-shadow: 0 0 15px rgba(22,255,138,0.4);
-        }
-
-        /* Títulos */
-        .neon-pulse-green {
-            animation: neon-green 1.4s infinite alternate;
-        }
-        @keyframes neon-green {
-            from { text-shadow: 0 0 8px #16ff8a; }
-            to { text-shadow: 0 0 22px #62ffc0; }
-        }
-
-        .neon-pulse-red {
-            animation: neon-red 1.4s infinite alternate;
-        }
-        @keyframes neon-red {
-            from { text-shadow: 0 0 6px #ff4d4d; }
-            to { text-shadow: 0 0 20px #ff9999; }
-        }
-
-        /* Dress Code */
-        .location-pulse-button {
-            border: 2px solid var(--neon-gold);
-            color: var(--neon-gold);
-            animation: pulse-gold 1.6s infinite alternate;
-        }
-        @keyframes pulse-gold {
-            from { box-shadow: 0 0 10px var(--neon-gold); }
-            to { box-shadow: 0 0 25px var(--neon-gold); }
-        }
-
-        /* GIFT section - Christmas tropical */
-        .gift-text {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #ffe9a3;
-            text-transform: uppercase;
-            text-shadow: 0 0 12px rgba(255, 233, 163, 0.7);
-        }
-
-        /* Disco button */
-        .animate-spin-slow {
-            animation: spin-slow 10s linear infinite;
-        }
-        @keyframes spin-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-    </style>
+    /* Responsive */
+    @media (max-width: 600px) {
+      header h1 { font-size: 2.3rem; }
+      .section-title { font-size: 1.7rem; }
+    }
+  </style>
 </head>
+<body>
 
-<body class="text-white font-body overflow-x-hidden">
+  <!-- Hawaiian leaves -->
+  <div class="leaves">
+    <img class="leaf" src="https://i.imgur.com/0eZpG5Y.png" />
+    <img class="leaf" src="https://i.imgur.com/0eZpG5Y.png" />
+  </div>
 
-    <div id="particles-js"></div>
+  <!-- Snow -->
+  <script>
+    for (let i = 0; i < 50; i++) {
+      let snow = document.createElement('div');
+      snow.className = 'snowflake';
+      snow.style.left = Math.random() * 100 + 'vw';
+      snow.style.animationDuration = 3 + Math.random() * 5 + 's';
+      snow.innerHTML = '❄';
+      document.body.appendChild(snow);
+    }
+  </script>
 
-    <div class="content-wrapper">
+  <header>
+    <h1>🎄✨ Christmas Luau Party ✨🌺</h1>
+    <p>Una noche mágica entre nieve, fuego y estilo hawaiano</p>
+  </header>
 
-        <!-- HERO -->
-        <section class="relative min-h-screen flex flex-col items-center justify-center text-center p-6">
-            <div class="relative z-10">
-                <h2 class="text-4xl md:text-6xl font-title neon-pulse-red">🌺 ¡Christmas Luau Party! 🎄</h2>
+  <div class="card">
+    <h2 class="section-title text-center">🌺 Aloha & Merry Christmas 🎄</h2>
+    <p class="text-center">Te invito a una celebración navideña tropical con luces cálidas, aromas de playa y un toque mágico de invierno.</p>
 
-                <h1 class="font-title text-6xl md:text-8xl my-2 navidad-verde neon-pulse-green">
-                    Navidad Tropical
-                </h1>
-
-                <p class="font-title text-5xl md:text-7xl navidad-dorado neon-pulse-red">
-                    Aloha Christmas Night
-                </p>
-
-                <p class="text-2xl mt-4 text-gray-300">
-                    Luces navideñas ✨ + Vibra hawaiana 🌴 + Música 🎶  
-                </p>
-
-                <!-- Countdown -->
-                <div id="countdown" class="flex justify-center gap-5 mt-12">
-                    <div class="countdown-box p-5 rounded-lg w-24">
-                        <div id="days" class="text-4xl font-bold">00</div>
-                        <div>Días</div>
-                    </div>
-                    <div class="countdown-box p-5 rounded-lg w-24">
-                        <div id="hours" class="text-4xl font-bold">00</div>
-                        <div>Horas</div>
-                    </div>
-                    <div class="countdown-box p-5 rounded-lg w-24">
-                        <div id="minutes" class="text-4xl font-bold">00</div>
-                        <div>Min</div>
-                    </div>
-                    <div class="countdown-box p-5 rounded-lg w-24">
-                        <div id="seconds" class="text-4xl font-bold">00</div>
-                        <div>Seg</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- DETAILS -->
-        <section class="py-20 px-6 fade-in-section">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="font-title text-5xl md:text-7xl mb-12 navidad-verde neon-pulse-green">Detalles del Luau Navideño</h2>
-
-                <div class="grid md:grid-cols-3 gap-8 text-xl md:text-2xl">
-
-                    <!-- Fecha -->
-                    <div class="card-item p-8 rounded-xl">
-                        <svg class="w-16 h-16 mx-auto mb-4 neon-icon-red" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7H3v12a2 2 0 002 2z"/>
-                        </svg>
-                        <h3 class="font-bold text-2xl">Fecha & Hora</h3>
-                        <p>Sábado, 22 de Diciembre</p>
-                        <p>7:30 PM</p>
-                    </div>
-
-                    <!-- Lugar -->
-                    <div class="card-item p-8 rounded-xl">
-                        <svg class="w-16 h-16 mx-auto mb-4 neon-icon-red" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-width="2" d="M17.657 16.657 13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"/>
-                            <circle cx="12" cy="10" r="3" stroke-width="2"/>
-                        </svg>
-                        <h3 class="font-bold text-2xl">Lugar</h3>
-                        <p class="text-gray-300 mb-6">La Playa Navideña – La Siria</p>
-                        <a href="https://www.google.com/maps" target="_blank"
-                           class="location-pulse-button inline-block w-full py-2 px-5 rounded-full font-bold uppercase">
-                            Ver ubicación
-                        </a>
-                    </div>
-
-                    <!-- Dress code -->
-                    <div class="card-item p-8 rounded-xl">
-                        <svg class="w-16 h-16 mx-auto mb-4 neon-icon-red" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-width="2" d="M4 6l4-3h3a1.5 1.5 0 003 0h3l4 3v4l-2 1v9a1 1 0 01-1 1H7a1 1 0 01-1-1V11L4 10V6z"/>
-                        </svg>
-                        <h3 class="font-bold text-2xl">Dress Code</h3>
-                        <p class="text-gray-300">Navideño Tropical 🌺🎄</p>
-                        <p class="text-gray-300">Flores, rojo, dorado, verde</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- RSVP -->
-        <section class="py-20 px-6 text-center fade-in-section">
-            <h2 class="font-title text-5xl md:text-7xl mb-6 navidad-dorado neon-pulse-red">Confirma tu asistencia</h2>
-
-            <p class="text-xl md:text-2xl mb-8 bg-black/60 p-4 rounded-lg">
-                ¡Ven a vivir una navidad diferente, llena de playa, ritmo y luces tropicales!
-            </p>
-
-            <button class="bg-gradient-to-r from-red-500 to-green-500 text-white font-bold text-xl py-4 px-10 rounded-full shadow-xl transform hover:scale-110 transition-all">
-                ¡Sí, voy al Luau Navideño!
-            </button>
-        </section>
-
-
-        <!-- GIFT -->
-        <section class="py-16 fade-in-section text-center">
-            <a class="gift-container">
-                <div class="icon-wrapper">
-                    <svg class="money" viewBox="0 0 64 64">
-                        <rect x="4" y="16" width="56" height="32" rx="4" fill="#16ff8a" stroke="#0c5c2e"/>
-                        <circle cx="32" cy="32" r="6" fill="#0c5c2e"/>
-                        <text x="32" y="36" text-anchor="middle" fill="white" font-weight="bold">$</text>
-                    </svg>
-                </div>
-
-                <span class="gift-text font-title">Regalo Tropical</span>
-            </a>
-        </section>
-
-
-        <!-- Outfits -->
-        <section class="py-20 px-6 fade-in-section">
-            <div class="max-w-xl mx-auto text-center">
-                <h2 class="font-title text-5xl navidad-verde neon-pulse-green mb-4">Ideas de Vestuario</h2>
-                <p class="text-xl text-gray-300 mb-12">
-                    Mira ideas navideñas + hawaianas para verte tropical y festivo(a).
-                </p>
-
-                <div class="card-item p-6 rounded-xl">
-                    <a href="https://www.pinterest.com/search/pins/?q=christmas%20luau%20outfit" target="_blank"
-                       class="dynamic-disco-button relative flex flex-col items-center justify-center p-6 rounded-lg">
-                       
-                        <div class="absolute inset-0 rounded-lg animate-spin-slow"
-                             style="background: conic-gradient(from 0deg, #ff4d4d 0%, #ffe9a3 25%, #16ff8a 50%, #ff4d4d 75%, #ffe9a3 100%); opacity: 0.7;"></div>
-
-                        <div class="relative z-10 p-4 w-full rounded-lg bg-black/80">
-                            <h3 class="font-bold text-3xl navidad-verde neon-pulse-green">Toca Aquí</h3>
-                            <p class="text-lg text-gray-300">Inspírate con looks tropicales navideños</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <footer class="text-center py-8 text-gray-500">
-            <p class="font-title text-xl">Christmas Luau 2025 🌺🎄</p>
-        </footer>
-
+    <div class="fire-container">
+      <div class="fire">
+        <div class="flame"></div>
+      </div>
     </div>
+
+    <h2 class="section-title">📍 Lugar</h2>
+    <p>Casa de Playa – Ambientes decorados en navidad tropical.</p>
+
+    <h2 class="section-title">📅 Fecha</h2>
+    <p>23 de diciembre – 7:00 PM</p>
+
+    <h2 class="section-title">👗 Dress Code</h2>
+    <p>Navidad Hawaiana (flores, rojo, verde, dorado, camisas tropicales).</p>
+
+    <h2 class="section-title">🎁 Actividad Especial</h2>
+    <p>Intercambio tropical – trae un regalo temático navideño-hawaiano.</p>
+
+    <div class="text-center">
+      <a class="btn" href="#">Confirmar Asistencia</a>
+    </div>
+  </div>
+
 </body>
 </html>
